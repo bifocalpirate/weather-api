@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 import numpy as np
 from PIL import Image
 import requests
@@ -34,6 +34,7 @@ def get_astro_daily_description(data):
 
 def get_weather_data(days:int, location:str, api_key:str):
     url = f"https://api.weatherapi.com/v1/forecast.json?key={api_key}&q={location}&days={days}&aqi=no&alerts=no"
+    print(url)
     weather_data = requests.get(url).json()    
     
     image_urls = ["https:"+i["day"]["condition"]["icon"] for i in weather_data["forecast"]["forecastday"]]
@@ -49,8 +50,9 @@ def get_weather_data(days:int, location:str, api_key:str):
     return {"astros":astro_descriptions,"weather":descriptions}
 
 @app.get("/weather/getcurrentimg")
-async def get_weather_icons():
+async def get_weather_icons(response:Response):
     fn = config.get("WEATHER_ICONS_LOCATION")
+    response.headers["Cache-Control"]="no-cache"
     return FileResponse(fn)
 
 
