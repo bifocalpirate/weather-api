@@ -51,9 +51,8 @@ def get_weather_data(days:int, location:str, api_key:str):
 
 @app.get("/weather/getcurrentimg")
 async def get_weather_icons(response:Response):
-    fn = config.get("WEATHER_ICONS_LOCATION")
-    response.headers["Cache-Control"]="no-cache"
-    return FileResponse(fn)
+    fn = config.get("WEATHER_ICONS_LOCATION")    
+    return FileResponse(fn,headers={"Cache-Control":"no-cache"})
 
 
 @app.get("/weather/default")
