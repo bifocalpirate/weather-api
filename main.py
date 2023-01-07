@@ -14,11 +14,13 @@ def get_forecast_daily_description(data):
     date = data["date"]
     max_temp = data["day"]["maxtemp_c"]
     min_temp = data["day"]["mintemp_c"]
+    description = data["day"]["condition"]["text"]
     daily_chance_of_rain = f'{data["day"]["daily_chance_of_rain"]} %'
     return {
         "date":date,
         "max":max_temp,
         "min":min_temp,
+        "description":description,
         "chance_of_rain":daily_chance_of_rain
     }    
 
